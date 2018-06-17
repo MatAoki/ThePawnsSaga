@@ -136,7 +136,7 @@ public class Inimigos {
         return false;
     }
 
-    public void findMatrixPosition( int x, int y, mapaEstrela mapa){
+    public void findMatrixPosition( int x, int y, mapaEstrela mapa, mapaEstrela mapaBispo){
 
         int matrizTela[][] = new int[16][16];
 
@@ -152,7 +152,12 @@ public class Inimigos {
             if(y <= 1) My = 0;
         }
         
-        this.caminho = mapa.buscaPlayer(Mx, My);       
+        if(this.type == 1){
+            this.caminho = mapaBispo.buscaPlayer(Mx, My);              
+        }else{
+            this.caminho = mapa.buscaPlayer(Mx, My);  
+        }        
+                
         //System.out.println(mapa.buscaPlayer(Mx, My));
     }
 }

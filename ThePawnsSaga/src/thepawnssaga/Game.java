@@ -18,12 +18,14 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class Game extends JPanel {
-    mapaEstrela estrela = new mapaEstrela();
+    mapaEstrela estrela = new mapaEstrela(1);
+    mapaEstrela estrelaBispo = new mapaEstrela(2);
+        
     Menu menu = new Menu(this);
     Player player = new Player(this);
     ScreenFrag bg = new ScreenFrag(this);
     //Inimigos ball = new Inimigos(this,1);
-    //Inimigos ball2 = new Inimigos(this,2);
+    //Inimigos ball2 = new Inimigos(this,2);    
     
     //Inimigos pecas[] =  new Inimigos[10]; 
     ArrayList<Inimigos>pecas   = new ArrayList();
@@ -127,10 +129,10 @@ public class Game extends JPanel {
             }            
 		player.move();
                 // Retorna se ocorreu mudança na posição do player.
-                if(player.findMatrixPosition(player.x, player.y,estrela)){                    
+                if(player.findMatrixPosition(player.x, player.y,estrela,estrelaBispo)){                    
                     // Roda a atualização de percurso que cada peça tem que fazer.
                     for(Inimigos peca : pecasAtu){
-                        peca.findMatrixPosition(peca.x,peca.y,estrela);
+                        peca.findMatrixPosition(peca.x,peca.y,estrela,estrelaBispo);
                     }                    
                 }
                 //estrela.mostraPlayer();

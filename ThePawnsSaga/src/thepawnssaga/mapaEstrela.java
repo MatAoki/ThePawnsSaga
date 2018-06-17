@@ -12,7 +12,7 @@ public class mapaEstrela {
     No inicio;
     No destino;
     ArrayList<No> vetores = new ArrayList<No>();
-    public mapaEstrela(){
+    public mapaEstrela(int tipo){
         aberta.clear();
         fechada.clear();               
         
@@ -27,28 +27,52 @@ public class mapaEstrela {
             x++;
             
         }
-        
-        //vizinhos
-        for(No atual: this.vetores){
-            //vizinho cima
-            if(atual.ident > 15){
-                atual.vizinho.add(this.vetores.get(atual.ident - 16));
+        if (tipo == 1){
+            //vizinhos
+            for(No atual: this.vetores){
+                //vizinho cima
+                if(atual.ident > 15){
+                    atual.vizinho.add(this.vetores.get(atual.ident - 16));
+                }
+
+                //direita
+                if(atual.getX() < 15){                
+                    atual.vizinho.add(this.vetores.get(atual.ident+1));
+                }
+
+                //esquerda
+                if(atual.getX() > 1){
+                    atual.vizinho.add(this.vetores.get(atual.ident-1));
+                }
+
+                //vizinho baixo
+                if(atual.ident < 239){                
+                    if (this.vetores.get(atual.ident+16)!= null)
+                        atual.vizinho.add(this.vetores.get(atual.ident+16));
+                }
             }
-            
-            //direita
-            if(atual.getX() < 15){                
-                atual.vizinho.add(this.vetores.get(atual.ident+1));
-            }
-            
-            //esquerda
-            if(atual.getX() > 1){
-                atual.vizinho.add(this.vetores.get(atual.ident-1));
-            }
-            
-            //vizinho baixo
-            if(atual.ident < 239){                
-                if (this.vetores.get(atual.ident+16)!= null)
-                    atual.vizinho.add(this.vetores.get(atual.ident+16));
+        }else if(tipo == 2){
+            //vizinhos
+            for(No atual: this.vetores){
+                //vizinho cima esquerda
+                if(atual.ident > 15 && atual.getX() > 1){
+                    atual.vizinho.add(this.vetores.get(atual.ident - 17));
+                }
+
+                //cima direita
+                if(atual.ident > 15 && atual.getX() < 15 ){                
+                    atual.vizinho.add(this.vetores.get(atual.ident - 15));
+                }
+
+                //baixo esquerda
+                if(atual.ident < 239 && atual.getX() > 1){
+                    atual.vizinho.add(this.vetores.get(atual.ident + 15));
+                }
+
+                //vizinho baixo direita
+                if(atual.ident < 239 && atual.getX() < 15){                
+                    atual.vizinho.add(this.vetores.get(atual.ident+17));
+                }
             }
         }
         
@@ -144,7 +168,6 @@ public class mapaEstrela {
         while(!aberta.isEmpty()){           
             atual = aberta.remove(0);            
             fechada.add(atual);                                  
-
             
             if (atual.getTipo() == 1 || atual.getX() == destino.getX() && atual.getY() == destino.getY()){
                 return atual;               
@@ -170,7 +193,7 @@ public class mapaEstrela {
             
         }
         
-        return null;        
+        return null;
     }
     
     public boolean contemVizinhoAberto(int identificador){

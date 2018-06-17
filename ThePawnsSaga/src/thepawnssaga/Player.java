@@ -85,7 +85,7 @@ public class Player {
                     ya = 2;
     }
 
-    public boolean findMatrixPosition( int x, int y, mapaEstrela mapa){
+    public boolean findMatrixPosition( int x, int y,  mapaEstrela mapa, mapaEstrela mapaBispo){
 
         int matrizTela[][] = new int[16][16];
 
@@ -102,10 +102,11 @@ public class Player {
         }
         
         if(this.MxAnt != this.Mx || this.MyAnt != this.My){
-            
+            mapaBispo.removePlayer(MxAnt,MyAnt);
             mapa.removePlayer(MxAnt,MyAnt);
             this.MxAnt = this.Mx;
             this.MyAnt = this.My;            
+            mapaBispo.adicionaPlayer(MxAnt,MyAnt);
             mapa.adicionaPlayer(MxAnt,MyAnt);
             return true;
         }

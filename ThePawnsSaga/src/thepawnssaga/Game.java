@@ -1,4 +1,3 @@
-
 package thepawnssaga;
 
 
@@ -19,7 +18,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class Game extends JPanel {
-
+    mapaEstrela estrela = new mapaEstrela();
     Menu menu = new Menu(this);
     Player player = new Player(this);
     ScreenFrag bg = new ScreenFrag(this);
@@ -119,7 +118,7 @@ public class Game extends JPanel {
     private void move() {
             if(player.vivo){
                 for (Inimigos peca : pecasAtu) {
-                    peca.move(player);
+                    peca.move(player);                    
                 } 		
             }else{
                 for (Inimigos peca : pecasAtu) {
@@ -127,7 +126,14 @@ public class Game extends JPanel {
                 } 
             }            
 		player.move();
-                player.findMatrixPosition(player.x, player.y);
+                // Retorna se ocorreu mudança na posição do player.
+                if(player.findMatrixPosition(player.x, player.y,estrela)){                    
+                    // Roda a atualização de percurso que cada peça tem que fazer.
+                    for(Inimigos peca : pecasAtu){
+                        peca.findMatrixPosition(peca.x,peca.y,estrela);
+                    }                    
+                }
+                //estrela.mostraPlayer();
 	}
 
     public void run() throws InterruptedException {

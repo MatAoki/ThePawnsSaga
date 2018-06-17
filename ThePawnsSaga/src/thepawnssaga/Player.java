@@ -17,6 +17,7 @@ public class Player {
     int ya = 0;
     
     int Mx = 0, My = 0;
+    int MxAnt = 0, MyAnt = 0;
     
     boolean vivo = true;
     
@@ -71,38 +72,43 @@ public class Player {
             if (e.getKeyCode() == KeyEvent.VK_F5){
                 this.vivo = true;
             }
-	}
+    }
 
-	public void keyPressed(KeyEvent e) {
-		if (e.getKeyCode() == KeyEvent.VK_LEFT)
-			xa = -2;
-		if (e.getKeyCode() == KeyEvent.VK_RIGHT)
-			xa = 2;
-                if (e.getKeyCode() == KeyEvent.VK_UP)
-			ya = -2;
-		if (e.getKeyCode() == KeyEvent.VK_DOWN)
-			ya = 2;
-	}
-        
-        public void findMatrixPosition( int x, int y){
-            
+    public void keyPressed(KeyEvent e) {
+            if (e.getKeyCode() == KeyEvent.VK_LEFT)
+                    xa = -2;
+            if (e.getKeyCode() == KeyEvent.VK_RIGHT)
+                    xa = 2;
+            if (e.getKeyCode() == KeyEvent.VK_UP)
+                    ya = -2;
+            if (e.getKeyCode() == KeyEvent.VK_DOWN)
+                    ya = 2;
+    }
+
+    public boolean findMatrixPosition( int x, int y, mapaEstrela mapa){
+
         int matrizTela[][] = new int[16][16];
-        
+
         for (int i = 0; i < matrizTela.length; i++) {
-            
+
             if(x > (i*50)+14 && x <= ((i+1)*50)+14) Mx = i+1;
             if(x <= 14) Mx = 0;
         }
-        
+
         for (int i = 0; i < matrizTela.length; i++) {
-            
+
             if(y > (i*50)+1 && y <= ((i+1)*50)+1) My = i+1;
             if(y <= 1) My = 0;
         }
         
-        System.out.println("Mx = "+Mx+"       My = "+My);
-        System.out.println("x= "+x+"      y = "+y);
-    }
-
-    
+        if(this.MxAnt != this.Mx || this.MyAnt != this.My){
+            
+            mapa.removePlayer(MxAnt,MyAnt);
+            this.MxAnt = this.Mx;
+            this.MyAnt = this.My;            
+            mapa.adicionaPlayer(MxAnt,MyAnt);
+            return true;
+        }
+        return false;
+    }    
 }

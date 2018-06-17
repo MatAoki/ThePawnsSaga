@@ -106,37 +106,40 @@ public class Game extends JPanel {
             
             player.paint(g);
             
+            for (Inimigos peca : pecasAtu) {
+                //System.out.println(peca.vivo);
+                if(peca.vivo)
+                    peca.paint(g);
+            }
             Graphics2D g2d = (Graphics2D) g;
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);            
-            for (Inimigos peca : pecasAtu) {
-                    peca.paint(g2d);
-            }
+            
         }
         
         //System.out.println("gameMode = " + gameMode);
     }
 
     private void move() {
-            if(player.vivo){
-                for (Inimigos peca : pecasAtu) {
-                    peca.move(player);                    
-                } 		
-            }else{
-                for (Inimigos peca : pecasAtu) {
-                    peca.move();
-                } 
-            }            
-		player.move();
-                // Retorna se ocorreu mudança na posição do player.
-                if(player.findMatrixPosition(player.x, player.y,estrela,estrelaBispo)){                    
-                    // Roda a atualização de percurso que cada peça tem que fazer.
-                    for(Inimigos peca : pecasAtu){
-                        peca.findMatrixPosition(peca.x,peca.y,estrela,estrelaBispo);
-                    }                    
-                }
-                //estrela.mostraPlayer();
-	}
+        if(player.vivo){
+            for (Inimigos peca : pecasAtu) {
+                peca.move(player);                    
+            } 		
+        }else{
+            for (Inimigos peca : pecasAtu) {
+                peca.move();
+            } 
+        }            
+        player.move();
+        // Retorna se ocorreu mudança na posição do player.
+        if(player.findMatrixPosition(player.x, player.y,estrela,estrelaBispo)){                    
+            // Roda a atualização de percurso que cada peça tem que fazer.
+            for(Inimigos peca : pecasAtu){
+                peca.findMatrixPosition(peca.x,peca.y,estrela,estrelaBispo);
+            }                    
+        }
+        //estrela.mostraPlayer();
+    }
 
     public void run() throws InterruptedException {
         while (true) {
@@ -150,9 +153,14 @@ public class Game extends JPanel {
     
     public void colisao(){        
             for (Inimigos peca : pecasAtu) {
-                if(peca.colidiuInimigo(player,peca))
-                    player.vivo = false;
-            }            
+                if (peca.vivo) {
+                    if(peca.colidiuInimigo(player,peca))
+                        player.vivo = false;
+                }
+                
+                if(peca.colidiuHit(player,peca) == true)
+                    peca.vivo = false;
+            }                 
             
             if (player.x == 2){
                 //player.x = 750;

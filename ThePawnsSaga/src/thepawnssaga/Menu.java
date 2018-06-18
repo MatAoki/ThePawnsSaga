@@ -7,6 +7,9 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.net.URL;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
 
 public class Menu {
@@ -16,6 +19,7 @@ public class Menu {
 
     Image image;
     Game game;
+    audio som = new audio();
     
     public Menu(Game g) {
         this.game = g;
@@ -23,7 +27,8 @@ public class Menu {
         
         ImageIcon iia = new ImageIcon(loc);
         this.image = iia.getImage();
-        
+        //this.musica("menu.wav");
+        som.musica("menu.wav");
     }
     
     public void paint(Graphics g) {
@@ -42,6 +47,8 @@ public class Menu {
         if (e.getKeyCode() == KeyEvent.VK_SPACE){
                 this.game.gameMode = 1;   
                 System.out.println("gameMode:" + this.game.gameMode);
+                som.stopMusica();
+                som.musica("jogo.wav");        
         }
         
     }
@@ -52,6 +59,6 @@ public class Menu {
         if (e.getKeyCode() == KeyEvent.VK_SPACE)
                 this.game.gameMode = 1;   
     }
-
+        
     
 }

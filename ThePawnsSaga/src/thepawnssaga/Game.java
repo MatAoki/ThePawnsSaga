@@ -16,6 +16,10 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import java.io.*;
+import java.net.URL;
+import javax.sound.sampled.*;
+import javax.swing.*;
 
 public class Game extends JPanel {
     mapaEstrela estrela = new mapaEstrela(1);
@@ -26,7 +30,7 @@ public class Game extends JPanel {
     ScreenFrag bg = new ScreenFrag(this);
     //Inimigos ball = new Inimigos(this,1);
     //Inimigos ball2 = new Inimigos(this,2);    
-    
+        
     //Inimigos pecas[] =  new Inimigos[10]; 
     ArrayList<Inimigos>pecas   = new ArrayList();
     ArrayList<Inimigos>pecasAtu   = new ArrayList();
@@ -66,6 +70,10 @@ public class Game extends JPanel {
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);       
         
+        
+        //Musica
+        audio som = new audio();               
+                
         //Config inimigos
         FileReader arquivoInimigos = new FileReader("arquivoInimigos.txt");
         BufferedReader bufferArquivo = new BufferedReader(arquivoInimigos);
@@ -106,40 +114,37 @@ public class Game extends JPanel {
             
             player.paint(g);
             
-            for (Inimigos peca : pecasAtu) {
-                //System.out.println(peca.vivo);
-                if(peca.vivo)
-                    peca.paint(g);
-            }
             Graphics2D g2d = (Graphics2D) g;
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);            
-            
+            for (Inimigos peca : pecasAtu) {
+                    peca.paint(g2d);
+            }
         }
         
         //System.out.println("gameMode = " + gameMode);
     }
 
     private void move() {
-        if(player.vivo){
-            for (Inimigos peca : pecasAtu) {
-                peca.move(player);                    
-            } 		
-        }else{
-            for (Inimigos peca : pecasAtu) {
-                peca.move();
-            } 
-        }            
-        player.move();
-        // Retorna se ocorreu mudança na posição do player.
-        if(player.findMatrixPosition(player.x, player.y,estrela,estrelaBispo)){                    
-            // Roda a atualização de percurso que cada peça tem que fazer.
-            for(Inimigos peca : pecasAtu){
-                peca.findMatrixPosition(peca.x,peca.y,estrela,estrelaBispo);
-            }                    
-        }
-        //estrela.mostraPlayer();
-    }
+            if(player.vivo){
+                for (Inimigos peca : pecasAtu) {
+                    peca.move(player);                    
+                } 		
+            }else{
+                for (Inimigos peca : pecasAtu) {
+                    peca.move();
+                } 
+            }            
+		player.move();
+                // Retorna se ocorreu mudança na posição do player.
+                if(player.findMatrixPosition(player.x, player.y,estrela,estrelaBispo)){                    
+                    // Roda a atualização de percurso que cada peça tem que fazer.
+                    for(Inimigos peca : pecasAtu){
+                        peca.findMatrixPosition(peca.x,peca.y,estrela,estrelaBispo);
+                    }                    
+                }
+                //estrela.mostraPlayer();
+	}
 
     public void run() throws InterruptedException {
         while (true) {
@@ -153,14 +158,9 @@ public class Game extends JPanel {
     
     public void colisao(){        
             for (Inimigos peca : pecasAtu) {
-                if (peca.vivo) {
-                    if(peca.colidiuInimigo(player,peca))
-                        player.vivo = false;
-                }
-                
-                if(peca.colidiuHit(player,peca) == true)
-                    peca.vivo = false;
-            }                 
+                if(peca.colidiuInimigo(player,peca))
+                    player.vivo = false;
+            }            
             
             if (player.x == 2){
                 //player.x = 750;
@@ -206,6 +206,6 @@ public class Game extends JPanel {
                 if(peca.mapaX == this.mapaX && peca.mapaY == this.mapaY)
                     pecasAtu.add(new Inimigos(this, peca.type, peca.x, peca.x));
         }
-    }
+    }                    
 
 }

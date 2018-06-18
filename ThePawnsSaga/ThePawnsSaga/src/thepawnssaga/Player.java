@@ -19,6 +19,16 @@ public class Player {
     int Mx = 0, My = 0;
     int MxAnt = 0, MyAnt = 0;
     
+    int vidas = 3;
+    Image vida1;
+    Image vida2;
+    Image vida3;
+    
+    Image coffin;
+    Image keepGoing;
+    Image gameOver;
+    
+    
     boolean vivo = true;
     //---------variaveis para o ataque----------
     
@@ -63,6 +73,33 @@ public class Player {
         URL aDR = this.getClass().getResource("player-swingDR.png");
         ImageIcon downRightSwing = new ImageIcon(aDR);
         this.atkSpriteDR = downRightSwing.getImage();
+        
+        //vidas
+        URL hp1 = this.getClass().getResource("v1.png");
+        ImageIcon HP1 = new ImageIcon(hp1);
+        this.vida1 = HP1.getImage();
+        
+        URL hp2 = this.getClass().getResource("v2.png");
+        ImageIcon HP2 = new ImageIcon(hp2);
+        this.vida2 = HP2.getImage();
+        
+        URL hp3 = this.getClass().getResource("v3.png");
+        ImageIcon HP3 = new ImageIcon(hp3);
+        this.vida3 = HP3.getImage();
+        
+        //morte e gameover
+        URL caixao = this.getClass().getResource("coffin.png");
+        ImageIcon coffing = new ImageIcon(caixao);
+        this.coffin = coffing.getImage();
+        
+        URL ded = this.getClass().getResource("dead.png");
+        ImageIcon dead = new ImageIcon(ded);
+        this.keepGoing = dead.getImage();
+        
+        URL xeque = this.getClass().getResource("xequemate.png");
+        ImageIcon xequeMate = new ImageIcon(xeque);
+        this.gameOver = xequeMate.getImage();
+        
     }
     
     public void move() {
@@ -121,6 +158,37 @@ public class Player {
             count = 0;
             }
         }
+        if(vivo==false){
+            Graphics2D g2d = (Graphics2D) g.create();
+            g2d.drawImage(coffin, x, y, game);
+            g2d.dispose();
+            
+            Graphics2D g3d = (Graphics2D) g.create();
+            g3d.drawImage(keepGoing, 0, 0, game);
+            g3d.dispose();
+        }
+        
+        
+        if(vidas == 3){
+            Graphics2D g2d = (Graphics2D) g.create();
+            g2d.drawImage(vida3, 10, 10, game);
+            g2d.dispose();
+        }
+        if(vidas == 2){
+            Graphics2D g2d = (Graphics2D) g.create();
+            g2d.drawImage(vida2, 10, 10, game);
+            g2d.dispose();
+        }
+        if(vidas == 1){
+            Graphics2D g2d = (Graphics2D) g.create();
+            g2d.drawImage(vida1, 10, 10, game);
+            g2d.dispose();
+        }
+        if(vidas <1){
+            Graphics2D g2d = (Graphics2D) g.create();
+            g2d.drawImage(gameOver, 0, 0, game);
+            g2d.dispose();
+        }
     }
     
     public void keyReleased(KeyEvent e) {
@@ -143,6 +211,11 @@ public class Player {
         }
         if (e.getKeyCode() == KeyEvent.VK_F5){
             this.vivo = true;
+        }
+        if (this.vidas <1 && e.getKeyCode() == KeyEvent.VK_M){
+            game.gameMode =0;
+            this.vidas = 3;
+            //game.score = 0;
         }
     }
 

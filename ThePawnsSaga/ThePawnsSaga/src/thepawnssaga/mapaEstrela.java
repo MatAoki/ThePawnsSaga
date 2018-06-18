@@ -237,7 +237,7 @@ public class mapaEstrela {
                        
         if (inimigo != null && player != null){
             //this.mostraMapaCaminho(this.busca(inimigo,player));
-            //this.mostraMapa();
+            this.mostraMapa();
             // Isso aqui é o que tem que retornar
             return this.busca(inimigo,player);
         }else{

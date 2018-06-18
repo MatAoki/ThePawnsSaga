@@ -45,12 +45,21 @@ public class Menu {
                 this.game.gameMode = 2;
                 System.out.println("gameMode:" + this.game.gameMode);
         }
-        if (e.getKeyCode() == KeyEvent.VK_SPACE){
+        if (this.game.gameMode == 0 && e.getKeyCode() == KeyEvent.VK_SPACE){
                 this.game.gameMode = 1;   
                 System.out.println("gameMode:" + this.game.gameMode);
                 som.stopMusica();
-                som.musica("jogo.wav"); 
+                som.musica("jogo.wav");
+                game.player.vivo = true;
+                game.player.x = 540;
+                game.player.y = 540;
+                game.mapaX = 1;
+                game.mapaY = 1;
+                game.fundo = -1;
+                game.limpaInimigo();
+                game.spawnInimigo();
         }
+        
         
     }
     

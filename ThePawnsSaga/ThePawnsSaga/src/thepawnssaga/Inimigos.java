@@ -30,6 +30,7 @@ public class Inimigos {
     Image bispo;
     Image torre;
     Image cavalo;
+    Image rei;
     
     boolean vivo = true;
     
@@ -63,6 +64,10 @@ public class Inimigos {
         URL horse = this.getClass().getResource("Cabalo.png");
         ImageIcon horseSprite = new ImageIcon(horse);
         this.cavalo = horseSprite.getImage();
+        
+        URL king = this.getClass().getResource("king.png");
+        ImageIcon kingSprite = new ImageIcon(king);
+        this.rei = kingSprite.getImage();
     }
 
     public Inimigos(Game game, int type, int x, int y, int mapaX, int mapaY) {
@@ -84,6 +89,10 @@ public class Inimigos {
         URL horse = this.getClass().getResource("Cabalo.png");
         ImageIcon horseSprite = new ImageIcon(horse);
         this.cavalo = horseSprite.getImage();
+        
+        URL king = this.getClass().getResource("king.png");
+        ImageIcon kingSprite = new ImageIcon(king);
+        this.rei = kingSprite.getImage();
     }
     /*
     void move(Player player) {
@@ -187,7 +196,7 @@ public class Inimigos {
             if(this.x == (moveTo.getX() - 1)*50 +39){
                 chegouX = true;;
             }
-            if(this.y < moveTo.getY()*50){
+            if(this.y <= moveTo.getY()*50 && this.y >= moveTo.getY()*50-3){
                 chegouY = true;
             }
 
@@ -217,7 +226,7 @@ public class Inimigos {
             if(this.x == (moveTo.getX() - 1)*50 +39){
                 chegouX = true;
             }
-            if(this.y < moveTo.getY()*50){
+            if(this.y <= moveTo.getY()*50 && this.y >= moveTo.getY()*50-3){
                 chegouY = true;
             }
             
@@ -244,6 +253,11 @@ public class Inimigos {
         if(this.type == 3){ //=========Cavalo=========
             Graphics2D g2d = (Graphics2D) g.create();
             g2d.drawImage(cavalo, x, y, game);
+            g2d.dispose();
+        }
+        if(this.type == 9){ //*********REI*************
+            Graphics2D g2d = (Graphics2D) g.create();
+            g2d.drawImage(rei, x, y, game);
             g2d.dispose();
         }
     }

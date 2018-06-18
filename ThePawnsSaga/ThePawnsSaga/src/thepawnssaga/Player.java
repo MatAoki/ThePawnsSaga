@@ -215,7 +215,13 @@ public class Player {
         if (this.vidas <1 && e.getKeyCode() == KeyEvent.VK_M){
             game.gameMode =0;
             this.vidas = 3;
-            //game.score = 0;
+            game.score = 0;
+        }
+        if (game.win == true && e.getKeyCode() == KeyEvent.VK_M){
+            game.gameMode =0;
+            this.vidas = 3;
+            game.score = 0;
+            game.win = false;
         }
     }
 

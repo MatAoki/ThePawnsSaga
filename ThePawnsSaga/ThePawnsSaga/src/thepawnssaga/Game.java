@@ -40,6 +40,9 @@ public class Game extends JPanel {
     int mapaY = 1;
     int score = 0;
     
+    boolean win = false;
+    Image Ganhou;
+    
     JFrame frame;
     
     Image scoreHud;
@@ -154,6 +157,10 @@ public class Game extends JPanel {
         URL N0 = this.getClass().getResource("0.png");
         ImageIcon num0 = new ImageIcon(N0);
         this.n0 = num0.getImage();
+        
+        URL Win = this.getClass().getResource("win.png");
+        ImageIcon WIN = new ImageIcon(Win);
+        this.Ganhou = WIN.getImage();
     }
     
     public void paint(Graphics g) {
@@ -181,7 +188,12 @@ public class Game extends JPanel {
             }
             Graphics2D g2d = (Graphics2D) g;
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);            
+				RenderingHints.VALUE_ANTIALIAS_ON);
+            if(win){
+                Graphics2D gwd = (Graphics2D) g.create();
+                gwd.drawImage(Ganhou, 0, 0 , this);
+                gwd.dispose();
+            }
             paintScore(g);
         }
         
@@ -328,6 +340,14 @@ public class Game extends JPanel {
         
     }
     
+    /*public boolean vitoria(Graphics g){
+        
+        if () {
+            
+        }
+        return true;
+    }*/
+    
     
 
     private void move() {
@@ -384,7 +404,7 @@ public class Game extends JPanel {
                 if(peca.colidiuHit(player,peca) == true){
                     if(peca.vivo)this.score = this.score+5;
                     peca.vivo = false;
-                    
+                    if(peca.type == 9)win = true;
                 }
             }
         }
